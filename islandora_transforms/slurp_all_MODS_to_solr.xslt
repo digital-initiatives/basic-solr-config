@@ -6,10 +6,10 @@
   xmlns:foxml="info:fedora/fedora-system:def/foxml#"
   xmlns:mods="http://www.loc.gov/mods/v3"
      exclude-result-prefixes="mods java">
-  <!-- <xsl:include href="/usr/local/fedora/tomcat/webapps/fedoragsearch/WEB-INF/classes/config/index/FgsIndex/islandora_transforms/library/xslt-date-template.xslt"/>-->
-  <xsl:include href="/usr/local/fedora/tomcat/webapps/fedoragsearch/WEB-INF/classes/fgsconfigFinal/index/FgsIndex/islandora_transforms/library/xslt-date-template.xslt"/>
-  <!-- <xsl:include href="/usr/local/fedora/tomcat/webapps/fedoragsearch/WEB-INF/classes/config/index/FgsIndex/islandora_transforms/manuscript_finding_aid.xslt"/> -->
-  <xsl:include href="/usr/local/fedora/tomcat/webapps/fedoragsearch/WEB-INF/classes/fgsconfigFinal/index/FgsIndex/islandora_transforms/manuscript_finding_aid.xslt"/>
+  <!-- <xsl:include href="/vhosts/fedora/tomcat/webapps/fedoragsearch/WEB-INF/classes/config/index/FgsIndex/islandora_transforms/library/xslt-date-template.xslt"/>-->
+  <xsl:include href="/vhosts/fedora/tomcat/webapps/fedoragsearch/WEB-INF/classes/fgsconfigFinal/index/FgsIndex/islandora_transforms/library/xslt-date-template.xslt"/>
+  <!-- <xsl:include href="/vhosts/fedora/tomcat/webapps/fedoragsearch/WEB-INF/classes/config/index/FgsIndex/islandora_transforms/manuscript_finding_aid.xslt"/> -->
+  <xsl:include href="/vhosts/fedora/tomcat/webapps/fedoragsearch/WEB-INF/classes/fgsconfigFinal/index/FgsIndex/islandora_transforms/manuscript_finding_aid.xslt"/>
   <!-- HashSet to track single-valued fields. -->
   <xsl:variable name="single_valued_hashset" select="java:java.util.HashSet.new()"/>
 
@@ -27,7 +27,47 @@
       <xsl:with-param name="pid" select="../../@PID"/>
       <xsl:with-param name="datastream" select="../@ID"/>
     </xsl:apply-templates>
+
+    <xsl:apply-templates mode="utk_MODS" select="$content//mods:mods[1]"/>
   </xsl:template>
+
+  <!--
+    additional templating for our MODS name/roles and geographic terms/coordinates
+  -->
+  <xsl:template match="mods:mods/mods:name" mode="utk_MODS">
+    <xsl:variable name="vName" select="child::mods:namePart"/>
+    <xsl:variable name="vRole">
+      <xsl:if test="child::mods:role/mods:roleTerm">
+        <xsl:text>(</xsl:text>
+        <xsl:for-each select="child::mods:role/mods:roleTerm">
+          <xsl:value-of select="."/>
+          <xsl:if test="not(position()=last())">,</xsl:if>
+        </xsl:for-each>
+        <xsl:text>)</xsl:text>
+      </xsl:if>
+    </xsl:variable>
+
+    <field name="utk_mods_name_role_ms">
+      <xsl:choose>
+        <xsl:when test="$vRole=''">
+          <xsl:value-of select="$vName"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="concat($vName,' ',$vRole)"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </field>
+  </xsl:template>
+
+  <xsl:template match="mods:mods/mods:subject[mods:geographic][mods:cartographics]" mode="utk_MODS">
+    <xsl:variable name="vGeo" select="child::mods:geographic"/>
+    <xsl:variable name="vCoords" select="child::mods:cartographics/mods:coordinates"/>
+
+    <field name="utk_mods_geo_coords_ms">
+      <xsl:value-of select="concat($vGeo,' ','(',$vCoords,')')"/>
+    </field>
+  </xsl:template>
+
 
   <!-- Handle dates. -->
   <xsl:template match="mods:*[(@type='date') or (contains(translate(local-name(), 'D', 'd'), 'date'))][normalize-space(text())]" mode="slurping_MODS">
@@ -116,6 +156,9 @@
       <xsl:value-of select="concat($prefix, local-name(), '_')"/>
       <xsl:if test="@type">
         <xsl:value-of select="concat(translate(@type, ' ', '_'), '_')"/>
+      </xsl:if>
+      <xsl:if test="@displayLabel">
+        <xsl:value-of select="concat(translate(@displayLabel,' ','_'),'_')"/>
       </xsl:if>
     </xsl:variable>
 
