@@ -9,4 +9,12 @@ If one wishes to index Drupal content and users, one might process the `conf/dat
 
 The 4.x branch is setup to utilize solr 4ish configurations. These have been successfully tested with solr 4.2.0. 
 
-One major difference between solr 3.x and 4.x is when deploying configs they used to go to /usr/local/fedora/solr now they get deployed to /usr/local/fedora/solr/collection1 instead.
+#### Localizations for UTK Digital Initiatives
+* Paths have been changed from `/usr/local/` to `/vhosts/fedora/`.
+* Modifications to islandora_transforms/slurp_all_MODS to reflect the nifty stuff happening in our MODS records.
+
+#### Note(s):
+* Ensure that you're deploying the 4.x branch!
+* Ensure that you're using rsync to move files around - there are files in the target directories that need to stay there!
+* conf/ belongs under /vhosts/fedora/solr/collection1.
+* islandora_transforms/, foxmlToSolr, and index.properties belong under /vhosts/fedora/tomcat/webapps/fedoragsearch/WEB-INF/classes/fgsconfigFinal/index/FgsIndex/.
