@@ -29,7 +29,7 @@
  http://wiki.apache.org/solr/SchemaXml
 -->
 
-<schema name="DemoOnSolr" version="1.1">
+<schema name="DemoOnSolr" version="1.5">
   <!-- attribute "name" is the name of this schema and is only used for display purposes.
        Applications should change this to reflect the nature of the search collection.
        version="1.1" is Solr's version number for the schema syntax and semantics.  It should
@@ -286,6 +286,8 @@
        fields or fields that need an index-time boost need norms.
    -->
 
+   <field name="_version_" type="long" indexed="true" stored="true"/>
+
    <field name="PID" type="string" indexed="true" stored="true" required="true" />
 
    <!-- catchall field, containing all other searchable text fields (implemented
@@ -363,6 +365,14 @@
 <copyField source="*_dt" dest="*_mt"/>
 <copyField source="*_dt" dest="*_mdt"/>
 <copyField source="*_mdt" dest="*_mt"/>
+
+<!--
+    added the following, bridger, 2015-04-01.
+    a temporary fix to deal with legacy collections (DC input only) whose 'collection' (dc.relation or dc.source, varies)
+    is mapped to a less correct mods_relatedItem field.
+    this copies the DC->MODS->solr-mapping to the MODS->solr-mapping.
+-->
+<copyField source="mods_relatedItem_original_titleInfo_title_s" dest="mods_relatedItem_host_titleInfo_title_s"/>
 
 <!-- The following line is a bit of a performance hog, I would look to remove it if the indexing takes a long time. -->
 <copyField source="*" dest="catch_all_fields_mt"/>
