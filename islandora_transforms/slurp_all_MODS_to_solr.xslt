@@ -34,6 +34,7 @@
   <!--
     additional templating for our MODS name/roles and geographic terms/coordinates
   -->
+  <!-- the following template creates an _ms name+role field -->
   <xsl:template match="mods:mods/mods:name" mode="utk_MODS">
     <xsl:variable name="vName" select="child::mods:namePart"/>
     <xsl:variable name="vRole">
@@ -59,6 +60,7 @@
     </field>
   </xsl:template>
 
+  <!-- the following template creates a geoSubject+coordinates _ms field-->
   <xsl:template match="mods:mods/mods:subject[mods:geographic][mods:cartographics]" mode="utk_MODS">
     <xsl:variable name="vGeo" select="child::mods:geographic"/>
     <xsl:variable name="vCoords" select="child::mods:cartographics/mods:coordinates"/>
@@ -68,6 +70,40 @@
     </field>
   </xsl:template>
 
+  <!-- the following template creates an archivalCollection+archivalIdentifier _ms field -->
+  <xsl:template match="mods:mods/mods:relatedItem[@type='host'][@displayLabel='Collection']" mode="utk_MODS">
+    <xsl:variable name="vColl" select="child::mods:titleInfo/mods:title"/>
+    <xsl:variable name="vArchivalID">
+      <xsl:if test="child::mods:identifier[@type='local']">
+        <xsl:value-of select="child::mods:identifier"/>
+      </xsl:if>
+    </xsl:variable>
+
+    <field name="utk_mods_archColl_archID_ms">
+      <xsl:choose>
+        <xsl:when test="$vArchivalID=''">
+          <xsl:value-of select="$vColl"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="concat($vColl,', ',$vArchivalID)"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </field>
+  </xsl:template>
+
+  <!-- the following template creates a simplified topical LCSH subject _ms field -->
+  <xsl:template match="mods:mods/mods:subject[@type='lcsh']">
+    <field name="utk_mods_lcshSubject_topic_ms">
+      <xsl:value-of select="."/>
+    </field>
+  </xsl:template>
+
+  <!-- the following template creates a simplified topical DOTS subject _ms field -->
+  <xsl:template match="mods:mods/mods:subject[@type='dots']">
+    <field name="utk_mods_dotsSubject_topic_ms">
+      <xsl:value-of select="."/>
+    </field>
+  </xsl:template>
 
   <!-- Handle dates. -->
   <xsl:template match="mods:*[(@type='date') or (contains(translate(local-name(), 'D', 'd'), 'date'))][normalize-space(text())]" mode="slurping_MODS">
