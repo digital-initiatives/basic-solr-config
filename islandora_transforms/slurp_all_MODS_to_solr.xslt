@@ -91,19 +91,17 @@
     </field>
   </xsl:template>
 
-  <!-- the following template creates a simplified topical LCSH subject _ms field -->
-  <xsl:template match="mods:mods/mods:subject[@type='lcsh']">
-    <field name="utk_mods_lcshSubject_topic_ms">
-      <xsl:value-of select="."/>
+  <!-- the following template creates a simplified topical subject _ms field -->
+  <!--
+    note: this is *very* generic; it grabs all mods:subjects with an @authority,
+    so we may want to add some specificity in here at some point. maybe.
+  -->
+  <xsl:template match="mods:mods/mods:subject[@authority]" mode="utk_MODS">
+    <field name="utk_mods_subject_topic_ms">
+      <xsl:value-of select="concat(.,';',@authority)"/>
     </field>
   </xsl:template>
 
-  <!-- the following template creates a simplified topical DOTS subject _ms field -->
-  <xsl:template match="mods:mods/mods:subject[@type='dots']">
-    <field name="utk_mods_dotsSubject_topic_ms">
-      <xsl:value-of select="."/>
-    </field>
-  </xsl:template>
 
   <!-- Handle dates. -->
   <xsl:template match="mods:*[(@type='date') or (contains(translate(local-name(), 'D', 'd'), 'date'))][normalize-space(text())]" mode="slurping_MODS">
