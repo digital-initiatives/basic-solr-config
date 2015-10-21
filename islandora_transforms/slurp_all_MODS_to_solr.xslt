@@ -102,6 +102,7 @@
     </field>
   </xsl:template>
 
+  <!-- the following template creates an _ms field for accessCondition+attributes -->
 
   <!-- Handle dates. -->
   <xsl:template match="mods:*[(@type='date') or (contains(translate(local-name(), 'D', 'd'), 'date'))][normalize-space(text())]" mode="slurping_MODS">
