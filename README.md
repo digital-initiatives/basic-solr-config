@@ -11,6 +11,7 @@ The 4.x branch is setup to utilize solr 4ish configurations. These have been suc
 
 #### Localizations for UTK Digital Initiatives
 * Paths have been changed from `/usr/local/` to `/vhosts/fedora/`.
+	* __Note:__ that the 4.x-vagrant branch retains the `/usr/local/` filepath, so you should be able to deploy the updated stylesheet in the vm.
 * Modifications to islandora_transforms/slurp_all_MODS to reflect the nifty stuff happening in our MODS records.
 
 #### Note(s):
