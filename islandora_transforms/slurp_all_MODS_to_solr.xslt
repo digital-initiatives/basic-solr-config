@@ -109,7 +109,7 @@
                        | mods:mods/mods:subject[@displayLabel='Tennessee Social Studies K-12 Eras in American History']"
                 mode="utk_MODS">
     <!-- we'll use the vShortDisplayLabel variable as a paren wrapped ID in the field value -->
-    <xsl:varible name="vShortDisplayLabel">
+    <xsl:variable name="vShortDisplayLabel">
       <xsl:choose>
         <xsl:when test="self::node()/@displayLabel='Volunteer Voices Curriculum Topics'">
           <xsl:value-of select="'volVoxCurriculumTopics'"/>
@@ -121,7 +121,7 @@
           <xsl:value-of select="'tnSocStudiesK-12'"/>
         </xsl:when>
       </xsl:choose>
-    </xsl:varible>
+    </xsl:variable>
 
     <!-- somethings not quite right with this template -->
     <field name="utk_mods_subject_volvox_ms">
