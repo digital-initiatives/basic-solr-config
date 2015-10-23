@@ -125,7 +125,7 @@
 
     <!-- somethings not quite right with this template -->
     <field name="utk_mods_subject_volvox_ms">
-      <xsl:value-of select="concat(.,' ','(',$vShortDisplayLabel,')')"/>
+      <xsl:value-of select="normalize-space(concat(.,' ','(',$vShortDisplayLabel,')'))"/>
     </field>
   </xsl:template>
 
