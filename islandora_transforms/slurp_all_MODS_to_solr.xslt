@@ -6,10 +6,10 @@
   xmlns:foxml="info:fedora/fedora-system:def/foxml#"
   xmlns:mods="http://www.loc.gov/mods/v3"
      exclude-result-prefixes="mods java">
-  <!-- <xsl:include href="/var/lib/tomcat7/webapps/fedoragsearch/WEB-INF/classes/config/index/FgsIndex/islandora_transforms/library/xslt-date-template.xslt"/>-->
-  <xsl:include href="/var/lib/tomcat7/webapps/fedoragsearch/WEB-INF/classes/fgsconfigFinal/index/FgsIndex/islandora_transforms/library/xslt-date-template.xslt"/>
-  <!-- <xsl:include href="/var/lib/tomcat7/webapps/fedoragsearch/WEB-INF/classes/config/index/FgsIndex/islandora_transforms/manuscript_finding_aid.xslt"/> -->
-  <xsl:include href="/var/lib/tomcat7/webapps/fedoragsearch/WEB-INF/classes/fgsconfigFinal/index/FgsIndex/islandora_transforms/manuscript_finding_aid.xslt"/>
+  <!-- <xsl:include href="/vhosts/fedora/tomcat/webapps/fedoragsearch/WEB-INF/classes/config/index/FgsIndex/islandora_transforms/library/xslt-date-template.xslt"/>-->
+  <xsl:include href="/vhosts/fedora/tomcat/webapps/fedoragsearch/WEB-INF/classes/fgsconfigFinal/index/FgsIndex/islandora_transforms/library/xslt-date-template.xslt"/>
+  <!-- <xsl:include href="/vhosts/fedora/tomcat/webapps/fedoragsearch/WEB-INF/classes/config/index/FgsIndex/islandora_transforms/manuscript_finding_aid.xslt"/> -->
+  <xsl:include href="/vhosts/fedora/tomcat/webapps/fedoragsearch/WEB-INF/classes/fgsconfigFinal/index/FgsIndex/islandora_transforms/manuscript_finding_aid.xslt"/>
   <!-- HashSet to track single-valued fields. -->
   <xsl:variable name="single_valued_hashset" select="java:java.util.HashSet.new()"/>
 
@@ -91,6 +91,7 @@
     </field>
   </xsl:template>
 
+  <!-- subjects! -->
   <!-- the following template creates a simplified topical subject _ms field -->
   <!--
     note: this is *very* generic; it grabs all mods:subjects with an @authority,
@@ -98,7 +99,33 @@
   -->
   <xsl:template match="mods:mods/mods:subject[@authority]" mode="utk_MODS">
     <field name="utk_mods_subject_topic_ms">
-      <xsl:value-of select="concat(.,';',@authority)"/>
+      <xsl:value-of select="concat(.,' ','(',@authority,')')"/>
+    </field>
+  </xsl:template>
+
+  <!-- the following template creates a simplified Volunteer Voices subject _ms field -->
+  <xsl:template match="mods:mods/mods:subject[@displayLabel='Volunteer Voices Curriculum Topics']
+                       | mods:mods/mods:subject[@displayLabel='Broad Topics']
+                       | mods:mods/mods:subject[@displayLabel='Tennessee Social Studies K-12 Eras in American History']"
+                mode="utk_MODS">
+    <!-- we'll use the vShortDisplayLabel variable as a paren wrapped ID in the field value -->
+    <xsl:variable name="vShortDisplayLabel">
+      <xsl:choose>
+        <xsl:when test="self::node()/@displayLabel='Volunteer Voices Curriculum Topics'">
+          <xsl:value-of select="'volVoxCurriculumTopics'"/>
+        </xsl:when>
+        <xsl:when test="self::node()/@displayLabel='Broad Topics'">
+          <xsl:value-of select="'volVoxroadTopics'"/>
+        </xsl:when>
+        <xsl:when test="starts-with(self::node()/@displayLabel,'Tennessee Social Studies')">
+          <xsl:value-of select="'tnSocStudiesK-12'"/>
+        </xsl:when>
+      </xsl:choose>
+    </xsl:variable>
+
+    <!-- somethings not quite right with this template -->
+    <field name="utk_mods_subject_volvox_ms">
+      <xsl:value-of select="normalize-space(concat(.,' ','(',$vShortDisplayLabel,')'))"/>
     </field>
   </xsl:template>
 
