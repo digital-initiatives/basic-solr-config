@@ -6,10 +6,10 @@
   xmlns:foxml="info:fedora/fedora-system:def/foxml#"
   xmlns:mods="http://www.loc.gov/mods/v3"
      exclude-result-prefixes="mods java">
-  <!-- <xsl:include href="/vhosts/fedora/tomcat/webapps/fedoragsearch/WEB-INF/classes/config/index/FgsIndex/islandora_transforms/library/xslt-date-template.xslt"/>-->
-  <xsl:include href="/vhosts/fedora/tomcat/webapps/fedoragsearch/WEB-INF/classes/fgsconfigFinal/index/FgsIndex/islandora_transforms/library/xslt-date-template.xslt"/>
-  <!-- <xsl:include href="/vhosts/fedora/tomcat/webapps/fedoragsearch/WEB-INF/classes/config/index/FgsIndex/islandora_transforms/manuscript_finding_aid.xslt"/> -->
-  <xsl:include href="/vhosts/fedora/tomcat/webapps/fedoragsearch/WEB-INF/classes/fgsconfigFinal/index/FgsIndex/islandora_transforms/manuscript_finding_aid.xslt"/>
+  <!-- <xsl:include href="/var/lib/tomcat7/webapps/fedoragsearch/WEB-INF/classes/config/index/FgsIndex/islandora_transforms/library/xslt-date-template.xslt"/>-->
+  <xsl:include href="/var/lib/tomcat7/webapps/fedoragsearch/WEB-INF/classes/fgsconfigFinal/index/FgsIndex/islandora_transforms/library/xslt-date-template.xslt"/>
+  <!-- <xsl:include href="/var/lib/tomcat7/webapps/fedoragsearch/WEB-INF/classes/config/index/FgsIndex/islandora_transforms/manuscript_finding_aid.xslt"/> -->
+  <xsl:include href="/var/lib/tomcat7/webapps/fedoragsearch/WEB-INF/classes/fgsconfigFinal/index/FgsIndex/islandora_transforms/manuscript_finding_aid.xslt"/>
   <!-- HashSet to track single-valued fields. -->
   <xsl:variable name="single_valued_hashset" select="java:java.util.HashSet.new()"/>
 
@@ -99,7 +99,7 @@
   -->
   <xsl:template match="mods:mods/mods:subject[@authority]" mode="utk_MODS">
     <field name="utk_mods_subject_topic_ms">
-      <xsl:value-of select="concat(.,' ','(',@authority,')')"/>
+      <xsl:value-of select="normalize-space(concat(.,' ','(',@authority,')'))"/>
     </field>
   </xsl:template>
 
@@ -115,7 +115,7 @@
           <xsl:value-of select="'volVoxCurriculumTopics'"/>
         </xsl:when>
         <xsl:when test="self::node()/@displayLabel='Broad Topics'">
-          <xsl:value-of select="'volVoxroadTopics'"/>
+          <xsl:value-of select="'volVoxBroadTopics'"/>
         </xsl:when>
         <xsl:when test="starts-with(self::node()/@displayLabel,'Tennessee Social Studies')">
           <xsl:value-of select="'tnSocStudiesK-12'"/>
