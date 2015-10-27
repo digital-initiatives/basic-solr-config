@@ -130,6 +130,11 @@
   </xsl:template>
 
   <!-- the following template creates an _ms field for accessCondition+attributes -->
+  <xsl:template match="mods:mods/mods:accessCondition[@type='use and reproduction']">
+    <field name="utk_mods_accessCondition_ms">
+      <xsl:value-of select="normalize-space(concat(.,' ','(','useAndReproduction',')'))"/>
+    </field>
+  </xsl:template>
 
   <!-- Handle dates. -->
   <xsl:template match="mods:*[(@type='date') or (contains(translate(local-name(), 'D', 'd'), 'date'))][normalize-space(text())]" mode="slurping_MODS">
