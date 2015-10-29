@@ -137,6 +137,7 @@
   </xsl:template>
 
   <!-- the following template creates an _ms field for abstract(s) -->
+  <!-- pulls all all mods:abstracts into one _ms field. maybe overly greedy? -->
   <xsl:template match="mods:mods/mods:abstract" mode="utk_MODS">
     <field name="utk_mods_abstract_ms">
       <xsl:for-each select=".">
