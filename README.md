@@ -19,6 +19,10 @@ The 4.x branch is setup to utilize solr 4ish configurations. These have been suc
 		* `$ sudo su`
 		* `# service tomcat7 restart`
 	* Update a PID or add a new item to your repository and then check Solr (or however you want to view your Solr fields).
+		* There are a couple of ways to do this:
+			1) use the localhost:8080/fedoragsearch/rest interface > select the __updateIndex__ link > enter an appropriate PID in the _updateIndex fromPid_ text box and then click _updateIndex fromPid_.
+			2) upload one of the test zips (available in JIRA).
+		* Querying the Solr interface is a quick way to check on the new fields; e.g. `http://localhost:8080/solr/collection1/select?q=*%3A*&fq=PID%3Aislandora*&sort=PID+asc&fl=PID%2Cutk_mods_*&wt=xml&indent=true`
 
 #### Note(s):
 * Ensure that you're deploying the appropriate 4.x branch!
