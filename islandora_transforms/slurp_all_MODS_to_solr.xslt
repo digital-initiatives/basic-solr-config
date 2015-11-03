@@ -98,8 +98,31 @@
     so we may want to add some specificity in here at some point. maybe.
   -->
   <xsl:template match="mods:mods/mods:subject[@authority]" mode="utk_MODS">
+    <!--
+       dots = Database of the Smokies
+       lcsh = Library of Congress
+       fast = FAST
+       local = Local Thang
+     -->
+    <xsl:variable name="vAuthority">
+      <xsl:choose>
+        <xsl:when test="self::node()/@authority='dots'">
+          <xsl:value-of select="'Database of the Smokies'"/>
+        </xsl:when>
+        <xsl:when test="self::node()/@authority='lcsh'">
+          <xsl:value-of select="'Library of Congress'"/>
+        </xsl:when>
+        <xsl:when test="self::node()/@authority='fast'">
+          <xsl:value-of select="'FAST'"/>
+        </xsl:when>
+        <xsl:when test="self::node()/@authority='local'">
+          <xsl:value-of select="'Local Subject Heading'"/>
+        </xsl:when>
+      </xsl:choose>
+    </xsl:variable>
+
     <field name="utk_mods_subject_topic_ms">
-      <xsl:value-of select="normalize-space(concat(.,' ','(',@authority,')'))"/>
+      <xsl:value-of select="normalize-space(concat(.,' ','(',$vAuthority,')'))"/>
     </field>
   </xsl:template>
 
