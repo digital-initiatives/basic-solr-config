@@ -126,29 +126,27 @@
     </field>
   </xsl:template>
 
-  <!-- the following template creates a simplified Volunteer Voices subject _ms field -->
-  <xsl:template match="mods:mods/mods:subject[@displayLabel='Volunteer Voices Curriculum Topics']
-                       | mods:mods/mods:subject[@displayLabel='Broad Topics']
-                       | mods:mods/mods:subject[@displayLabel='Tennessee Social Studies K-12 Eras in American History']"
+  <!-- the following templates creates a simplified Volunteer Voices subject _ms field -->
+  <!--
+    one for each:
+    Volunteer Voices Curriculum Topics
+    Broad Topics
+    Tennessee Social Studies K-12 Eras in American History
+  -->
+  <xsl:template match="mods:mods/mods:subject[@displayLabel='Volunteer Voices Curriculum Topics']" mode="utk_MODS">
+    <field name="utk_mods_subject_topic_curriculumTopics_ms">
+      <xsl:value-of select="normalize-space(concat(.,' ','(','Volunteer Voices',')'))"/>
+    </field>
+  </xsl:template>
+  <xsl:template match="mods:mods/mods:subject[@displayLabel='Broad Topics']" mode="utk_MODS">
+    <field name="utk_mods_subject_topic_broadTopics_ms">
+      <xsl:value-of select="normalize-space(concat(.,' ','(','Volunteer Voices',')'))"/>
+    </field>
+  </xsl:template>
+  <xsl:template match="mods:mods/mods:subject[@displayLabel='Tennessee Social Studies K-12 Eras in American History']"
                 mode="utk_MODS">
-    <!-- we'll use the vShortDisplayLabel variable as a paren wrapped ID in the field value -->
-    <xsl:variable name="vShortDisplayLabel">
-      <xsl:choose>
-        <xsl:when test="self::node()/@displayLabel='Volunteer Voices Curriculum Topics'">
-          <xsl:value-of select="'volVoxCurriculumTopics'"/>
-        </xsl:when>
-        <xsl:when test="self::node()/@displayLabel='Broad Topics'">
-          <xsl:value-of select="'volVoxBroadTopics'"/>
-        </xsl:when>
-        <xsl:when test="starts-with(self::node()/@displayLabel,'Tennessee Social Studies')">
-          <xsl:value-of select="'tnSocStudiesK-12'"/>
-        </xsl:when>
-      </xsl:choose>
-    </xsl:variable>
-
-    <!-- somethings not quite right with this template -->
-    <field name="utk_mods_subject_volvox_ms">
-      <xsl:value-of select="normalize-space(concat(.,' ','(',$vShortDisplayLabel,')'))"/>
+    <field name="utk_mods_subject_topic_socStudiesK12_ms">
+      <xsl:value-of select="normalize-space(concat(.,' ','(','Volunteer Voices',')'))"/>
     </field>
   </xsl:template>
 
