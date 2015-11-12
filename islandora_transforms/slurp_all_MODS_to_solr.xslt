@@ -98,38 +98,73 @@
     so we may want to add some specificity in here at some point. maybe.
   -->
   <xsl:template match="mods:mods/mods:subject[@authority]" mode="utk_MODS">
-    <field name="utk_mods_subject_topic_ms">
-      <xsl:value-of select="concat(.,' ','(',@authority,')')"/>
-    </field>
-  </xsl:template>
-
-  <!-- the following template creates a simplified Volunteer Voices subject _ms field -->
-  <xsl:template match="mods:mods/mods:subject[@displayLabel='Volunteer Voices Curriculum Topics']
-                       | mods:mods/mods:subject[@displayLabel='Broad Topics']
-                       | mods:mods/mods:subject[@displayLabel='Tennessee Social Studies K-12 Eras in American History']"
-                mode="utk_MODS">
-    <!-- we'll use the vShortDisplayLabel variable as a paren wrapped ID in the field value -->
-    <xsl:variable name="vShortDisplayLabel">
+    <!--
+       dots = Database of the Smokies
+       lcsh = Library of Congress
+       fast = FAST
+       local = Local Thang
+     -->
+    <xsl:variable name="vAuthority">
       <xsl:choose>
-        <xsl:when test="self::node()/@displayLabel='Volunteer Voices Curriculum Topics'">
-          <xsl:value-of select="'volVoxCurriculumTopics'"/>
+        <xsl:when test="self::node()/@authority='dots'">
+          <xsl:value-of select="'Database of the Smokies'"/>
         </xsl:when>
-        <xsl:when test="self::node()/@displayLabel='Broad Topics'">
-          <xsl:value-of select="'volVoxroadTopics'"/>
+        <xsl:when test="self::node()/@authority='lcsh'">
+          <xsl:value-of select="'Library of Congress'"/>
         </xsl:when>
-        <xsl:when test="starts-with(self::node()/@displayLabel,'Tennessee Social Studies')">
-          <xsl:value-of select="'tnSocStudiesK-12'"/>
+        <xsl:when test="self::node()/@authority='fast'">
+          <xsl:value-of select="'FAST'"/>
+        </xsl:when>
+        <xsl:when test="self::node()/@authority='local'">
+          <xsl:value-of select="'Local Subject Heading'"/>
         </xsl:when>
       </xsl:choose>
     </xsl:variable>
+    <field name="utk_mods_subject_topic_ms">
+      <xsl:value-of select="normalize-space(concat(.,' ','(',$vAuthority,')'))"/>
+    </field>
+  </xsl:template>
 
-    <!-- somethings not quite right with this template -->
-    <field name="utk_mods_subject_volvox_ms">
-      <xsl:value-of select="normalize-space(concat(.,' ','(',$vShortDisplayLabel,')'))"/>
+  <!-- the following templates creates a simplified Volunteer Voices subject _ms field -->
+  <!--
+    one for each:
+    Volunteer Voices Curriculum Topics
+    Broad Topics
+    Tennessee Social Studies K-12 Eras in American History
+  -->
+  <xsl:template match="mods:mods/mods:subject[@displayLabel='Volunteer Voices Curriculum Topics']" mode="utk_MODS">
+    <field name="utk_mods_subject_topic_curriculumTopics_ms">
+      <xsl:value-of select="normalize-space(concat(.,' ','(','Volunteer Voices',')'))"/>
+    </field>
+  </xsl:template>
+  <xsl:template match="mods:mods/mods:subject[@displayLabel='Broad Topics']" mode="utk_MODS">
+    <field name="utk_mods_subject_topic_broadTopics_ms">
+      <xsl:value-of select="normalize-space(concat(.,' ','(','Volunteer Voices',')'))"/>
+    </field>
+  </xsl:template>
+  <xsl:template match="mods:mods/mods:subject[@displayLabel='Tennessee Social Studies K-12 Eras in American History']"
+                mode="utk_MODS">
+    <field name="utk_mods_subject_topic_socStudiesK12_ms">
+      <xsl:value-of select="normalize-space(concat(.,' ','(','Volunteer Voices',')'))"/>
     </field>
   </xsl:template>
 
   <!-- the following template creates an _ms field for accessCondition+attributes -->
+  <xsl:template match="mods:mods/mods:accessCondition[@type='use and reproduction']">
+    <field name="utk_mods_accessCondition_ms">
+      <xsl:value-of select="normalize-space(concat(.,' ','(','useAndReproduction',')'))"/>
+    </field>
+  </xsl:template>
+
+  <!-- the following template creates an _ms field for abstract(s) -->
+  <!-- pulls all all mods:abstracts into one _ms field. maybe overly greedy? -->
+  <xsl:template match="mods:mods/mods:abstract" mode="utk_MODS">
+    <field name="utk_mods_abstract_ms">
+      <xsl:for-each select=".">
+        <xsl:value-of select="concat(.,' ')"/>
+      </xsl:for-each>
+    </field>
+  </xsl:template>
 
   <!-- Handle dates. -->
   <xsl:template match="mods:*[(@type='date') or (contains(translate(local-name(), 'D', 'd'), 'date'))][normalize-space(text())]" mode="slurping_MODS">
