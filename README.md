@@ -6,3 +6,6 @@ If one wishes to index Drupal content and users, one might process the `conf/dat
 * `drupal_dbname`
 * `drupal_db_username`
 * `drupal_db_password`
+
+
+[![Join the chat at https://gitter.im/utkdigitalinitiatives/basic-solr-config](https://badges.gitter.im/utkdigitalinitiatives/basic-solr-config.svg)](https://gitter.im/utkdigitalinitiatives/basic-solr-config?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
