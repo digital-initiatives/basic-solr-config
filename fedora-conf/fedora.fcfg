@@ -878,7 +878,7 @@ https://wiki.duraspace.org/display/FEDORA36/Spring+Security
     <param name="modelName" value="ri">
       <comment>The name of the model to use.</comment>
     </param>
-    <param name="bufferSafeCapacity" value="40000">
+    <param name="bufferSafeCapacity" value="60000">
       <comment>The maximum size the buffer can reach before being forcibly 
 			flushed. If this threshold is reached, flushing will occur in the 
 			foreground and the buffer will be locked for writing until it is 
