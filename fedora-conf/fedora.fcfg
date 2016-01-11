@@ -949,7 +949,7 @@ https://wiki.duraspace.org/display/FEDORA36/Spring+Security
   <datastore id="apimUpdateMessages">
     <comment>Messaging Destination for API-M events which update the repository</comment>
     <param name="name" value="fedora.apim.update"/>
-    <param name="type" value="topic">
+    <param name="type" value="queue">
       <comment>Optional, defaults to topic.</comment>
     </param>
     <param name="messageTypes" value="apimUpdate">
