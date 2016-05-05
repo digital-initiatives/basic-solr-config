@@ -34,4 +34,4 @@ The 4.x branch is setup to utilize solr 4ish configurations. These have been suc
 	* 4.x for dev and prod.
 * Ensure that you're using rsync to move files around - there are files in the target directories that need to stay there!
 * conf/ belongs under /vhosts/fedora/solr/collection1.
-* islandora_transforms/, foxmlToSolr, and index.properties belong under /var/lib/tomcat7/webapps/fedoragsearch/WEB-INF/classes/fgsconfigFinal/index/FgsIndex/.
+* islandora_transforms/, foxmlToSolr, and index.properties belong under $CATALINA_HOME/webapps/fedoragsearch/WEB-INF/classes/fgsconfigFinal/index/FgsIndex/.
