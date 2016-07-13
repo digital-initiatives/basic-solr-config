@@ -1,20 +1,16 @@
-This repo will holds a basic solr config, schema and xslt to use as a starting point for future projects.
+## 4.x-vagrant branch ##
 
+### About ###
+This branch is configured for UTK Digital Initiatives' islandora_vagrant VMs. The repository holds a basic Solr config, a basic Solr schema, as well as the XSLT that Fedora Generic Search (fedoragsearch) uses to create Solr indexes.
+
+The 4.x* branches are intended to be used with Solr 4.2.0.
+
+#### Localizations for UTK DI ####
+* Modifications to islandora_transforms/slurp_all_MODS to reflect the nifty stuff happening in our MODS records.
+
+### Dependencies ###
 It is now dependent on the [discoverygarden GSearch extensions](https://github.com/discoverygarden/dgi_gsearch_extensions)--which includes the Joda time library.
 
-If one wishes to index Drupal content and users, one might process the `conf/data-import-config.xml.erb` into `conf/data-import-config.xml`. It takes three parameters:
-* `drupal_dbname`
-* `drupal_db_username`
-* `drupal_db_password`
-
-The 4.x branch is setup to utilize solr 4ish configurations. These have been successfully tested with solr 4.2.0. 
-
-#### Localizations for UTK Digital Initiatives
-* Changes for our development|production environment
-	* paths have been changed from `/usr/local` to `/vhosts/fedora/`.
-* Changes for testing in the Vagrant VM
-	* paths have been retained.
-* Modifications to islandora_transforms/slurp_all_MODS to reflect the nifty stuff happening in our MODS records.
 
 #### Updating a file on the VM
 * __Note:__ in order to view the latest changes, rsync the islandora_transforms/slurp_all_MODS_to_solr.xslt to vagrant@localhost:/var/lib/tomcat7/webapps/fedoragsearch/WEB-INF/classes/fgsconfigFinal/index/FgsIndex/islandora_transforms.
@@ -35,3 +31,10 @@ The 4.x branch is setup to utilize solr 4ish configurations. These have been suc
 * Ensure that you're using rsync to move files around - there are files in the target directories that need to stay there!
 * conf/ belongs under /vhosts/fedora/solr/collection1.
 * islandora_transforms/, foxmlToSolr, and index.properties belong under /var/lib/tomcat7/webapps/fedoragsearch/WEB-INF/classes/fgsconfigFinal/index/FgsIndex/.
+
+### Miscellany ###
+If one wishes to index Drupal content and users, one might process the `conf/data-import-config.xml.erb` into `conf/data-import-config.xml`. It takes three parameters:
+
+* `drupal_dbname`
+* `drupal_db_username`
+* `drupal_db_password`
