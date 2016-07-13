@@ -20,8 +20,8 @@ The 4.x* branches are intended to be used with Solr 4.2.0.
 * On your islandora_vagrant VM, restart Tomcat with the following: `$ sudo service tomcat7 restart`
 * Update a PID or add a new item to your repository and then update your Solr index.
     * There are a variety of ways to do this; here are two:
-        1) use the localhost:8080/fedoragsearch/rest interface > select the **updateIndex** link > enter an appropriate PID in the _updateIndex fromPid_ text box and then click _updateIndex fromPid_.
-        2) ssh into your vagrant VM > run the following `curl` command using the PID of the updated item: `curl -u fedoraAdmin:fedoraAdmin -X GET "http://localhost:8080/fedoragsearch/rest?operation=updateIndex&action=fromPid&value=$YOUR_PID"`
+        * use the localhost:8080/fedoragsearch/rest interface > select the **updateIndex** link > enter an appropriate PID in the _updateIndex fromPid_ text box and then click _updateIndex fromPid_.
+        * ssh into your vagrant VM > run the following `curl` command using the PID of the updated item: `curl -u fedoraAdmin:fedoraAdmin -X GET "http://localhost:8080/fedoragsearch/rest?operation=updateIndex&action=fromPid&value=$YOUR_PID"`
 * Query the Solr index from your browser: `http://localhost:8080/solr/collection1/select?q=%22$YOUR_PID_HERE%22&fl=PID%2Cutk_mods_*&df=PID&wt=xml&indent=true`. **Note:** depending on your browser you may need to escape the `:` in your PID; e.g. `islandora:3` vs `islandora%3A3`.
 
 ### Dependencies ###
