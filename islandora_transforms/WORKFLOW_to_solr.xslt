@@ -1,7 +1,7 @@
 <xsl:stylesheet version="1.0" xmlns:foxml="info:fedora/fedora-system:def/foxml#" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
   <!-- Match Workflow Datastream -->
   <!-- Uncomment this line if this ntemplate is not included anywhere else on your site - it cannot be declared twice.
- </xsl:stylesheet>  <xsl:include href="/usr/local/fedora/tomcat/webapps/fedoragsearch/WEB-INF/classes/fgsconfigFinal/index/FgsIndex/islandora_transforms/library/xslt-date-template.xslt"/>
+ </xsl:stylesheet>  <xsl:include href="/vhosts/fedora/tomcat/webapps/fedoragsearch/WEB-INF/classes/fgsconfigFinal/index/FgsIndex/islandora_transforms/library/xslt-date-template.xslt"/>
   -->
   <xsl:template match="foxml:datastream[@ID='WORKFLOW']/foxml:datastreamVersion[last()]" name="index_WORKFLOW">
     <xsl:param name="content"/>
