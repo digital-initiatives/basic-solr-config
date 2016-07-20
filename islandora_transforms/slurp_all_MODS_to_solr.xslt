@@ -151,7 +151,7 @@
   </xsl:template>
 
   <!-- the following template creates an _ms field for accessCondition+attributes -->
-  <xsl:template match="mods:mods/mods:accessCondition[@type='use and reproduction']">
+  <xsl:template match="mods:mods/mods:accessCondition[@type='use and reproduction']" mode="utk_MODS">
     <field name="utk_mods_accessCondition_ms">
       <xsl:value-of select="normalize-space(concat(.,' ','(','useAndReproduction',')'))"/>
     </field>
